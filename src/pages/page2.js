@@ -50,7 +50,7 @@ const App = () => {
         if (item.balanceUSD == 0){
             return } 
         else{
-        scoresBody.push({appId: item.appId, network: "ethereum", balanceUSD: parseFloat(item.balanceUSD),balanceETH: 0.0 });
+        scoresBody.push({appId: item.appId, network: "ethereum", balanceUSD: parseFloat(item.balanceUSD)});
         console.log(item.appId, item.balanceUSD)
         }
     }

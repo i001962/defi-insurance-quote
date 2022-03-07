@@ -5,7 +5,189 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 
 const fetcher = new Fetcher(1)
-var result;
+const result = [
+  "aave-amm",
+  "aave-safety-module",
+  "aave",
+  "aave-v2",
+  "aavegotchi",
+  "abracadabra",
+  "adamant",
+  "alchemix",
+  "alkemi",
+  "alpha-tokenomics",
+  "alpha-v1",
+  "alpha-v2",
+  "apeswap",
+  "apy",
+  "arcx",
+  "armor",
+  "autofarm",
+  "b-protocol",
+  "badger",
+  "balancer-v1",
+  "balancer-v2",
+  "bancor",
+  "bao",
+  "barnbridge",
+  "barnbridge-smart-yield",
+  "beefy",
+  "beethoven-x",
+  "belt",
+  "benqi",
+  "bent",
+  "blizz",
+  "compound",
+  "convex",
+  "cream",
+  "cryptex",
+  "curve",
+  "defi-kingdoms",
+  "defi-swap",
+  "defisaver",
+  "derivadex",
+  "deversifi",
+  "dforce",
+  "dfyn",
+  "dhedge",
+  "dinoswap",
+  "dodo",
+  "dopex",
+  "dydx",
+  "88mph",
+  "88mph-v3",
+  "element",
+  "eleven-finance",
+  "ellipsis",
+  "fei",
+  "float-protocol",
+  "frax",
+  "geist",
+  "gmx",
+  "governor-dao",
+  "grim",
+  "gro",
+  "harvest",
+  "hector-dao",
+  "hegic",
+  "honeyswap",
+  "hop",
+  "hundred-finance",
+  "idle",
+  "illuvium",
+  "index-coop",
+  "indexed",
+  "inverse",
+  "iron",
+  "iron-bank",
+  "jones-dao",
+  "keep-network",
+  "keeper-dao",
+  "klima",
+  "klondike",
+  "kogefarm",
+  "kyber-dmm",
+  "liquity",
+  "looksrare",
+  "loopring",
+  "lydia",
+  "lyra",
+  "maker",
+  "maple",
+  "mirror",
+  "mooniswap",
+  "mstable",
+  "nexus-mutual",
+  "nft20",
+  "nftx",
+  "nsure-network",
+  "olympus",
+  "ondo",
+  "1inch",
+  "onx",
+  "opium-network",
+  "opyn",
+  "origin",
+  "orion-protocol",
+  "otterclam",
+  "pancakeswap",
+  "pangolin",
+  "penguin",
+  "perpetual-protocol",
+  "pickle",
+  "pie-dao",
+  "platypus-finance",
+  "polywhale",
+  "pooltogether",
+  "pooltogether-v4",
+  "popsicle",
+  "powerpool",
+  "qi-dao",
+  "quickswap",
+  "r-u-generous",
+  "railgun",
+  "rari",
+  "rari-fuse",
+  "realt",
+  "reaper",
+  "redacted-cartel",
+  "reflexer",
+  "ribbon",
+  "ribbon-v2",
+  "sablier",
+  "saddle",
+  "scarecrow",
+  "scream",
+  "shapeshift",
+  "shell",
+  "snowball",
+  "snowbank",
+  "snowdog",
+  "snowswap",
+  "spartacus",
+  "spiritswap",
+  "spookyswap",
+  "squid",
+  "stake-dao",
+  "stormswap",
+  "superfluid",
+  "sushiswap",
+  "sushiswap-bentobox",
+  "sushiswap-kashi",
+  "swapr",
+  "swerve",
+  "synlev",
+  "synthetix",
+  "tarot",
+  "teddy-cash",
+  "the-graph",
+  "tokemak",
+  "tokenlon",
+  "tomb",
+  "tornado-cash",
+  "traderjoe",
+  "truefi",
+  "ubeswap",
+  "unagii",
+  "uniswap",
+  "uniswap-v2",
+  "uniswap-v3",
+  "unit",
+  "universe",
+  "venus",
+  "vesper",
+  "vesta-finance",
+  "waultswap",
+  "wepiggy",
+  "wonderland",
+  "xsigma",
+  "xtoken",
+  "yam",
+  "yaxis",
+  "yearn",
+  "zlot",
+  "morpheus-swap"
+]
 
 async function getSeries() {
     let response = await fetch('https://risk-data.solace.fi/series', {
@@ -22,12 +204,14 @@ async function getSeries() {
 
 const App = () => {
   
-  // getSeries().then(function(series){
-  //   result = series.data.protocolMap.map(a => a.appId);
-  //   console.log(result);
-  // })
+/*    getSeries().then(function(series){
+     result = series.data.protocolMap.map(a => a.appId);
+     console.log(result);
+    return result
 
-  // var result =  getSeries();
+   })
+
+  resulty = getSeries(); */
   // console.log('suggest these ', result ) // uugh need fulfilled array not promise
   const [rows, setRows] = useState([{}]);
   const [fetchedData, setFetchedData] = useState('')
@@ -90,7 +274,12 @@ const App = () => {
     <div>
       <div className="container">
         <div className="row clearfix">
+        <div className="float-right">
+            <h3>1. Find appId by Protocol name</h3>
+            <Autocomplete suggestions={result}  />
+</div>
           <div className="col-md-12 column">
+            <h3>2. Build Portfolio</h3>
             <table className="table table-bordered table-hover" id="tab_logic">
               <thead>
                 <tr>
@@ -133,13 +322,13 @@ const App = () => {
                 ))}
               </tbody>
             </table>
+            <h3>3. Simulate Insurance Cost</h3>
             <button
               onClick={postResults}
               className="btn btn-success float-right"
             >
-              Calculate Rate
+              Calculate
             </button>
-            {/* <Autocomplete suggestions={result} /> */}
           </div>
           <h2> Estimated daily cost: {fetchedData}</h2>
           <h2> Estimated annual rate: {fetchedRate}</h2>

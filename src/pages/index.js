@@ -20,6 +20,7 @@ const SearchForm = ({accountIn}) => {
     // TODO STILL- proper account validation, Can we use web3.utils.isAddress(account) without logging in?   
     if (account.length === 42 && account.substring(0,2) === '0x') {
       const holdPortfolio = await fetcher.getSolaceRiskBalances(account);
+      //const holdPortfolio = await fetcher.getSolaceRiskBalances_MultiChain(account,[1]);
       console.log(holdPortfolio)
       if (holdPortfolio.length > 0) {
       let scores = await fetcher.getSolaceRiskScores(account, holdPortfolio);    

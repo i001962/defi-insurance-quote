@@ -3,6 +3,7 @@ import { Fetcher, solaceUtils, Policyholder } from "@solace-fi/sdk"
 import Autocomplete from "../components/autocomplete";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import solaceGif from '../images/party.gif'
 
 const fetcher = new Fetcher(1)
 const result = [
@@ -189,6 +190,14 @@ const result = [
   "morpheus-swap"
 ]
 
+const Loader = () => (
+  <div className="loader">
+     <h1> Loading....</h1>
+     <img src={solaceGif} alt="Solace ring cube" />
+     <p>If this doesn't work <a href="https://discord.solace.fi">blame Olaf!</a></p>
+  </div>
+)
+
 async function getSeries() {
     let response = await fetch('https://risk-data.solace.fi/series', {
         headers: {
@@ -216,6 +225,8 @@ const App = () => {
   const [rows, setRows] = useState([{}]);
   const [fetchedData, setFetchedData] = useState('')
   const [fetchedRate, setFetchedRate] = useState('') 
+  const [isLoading, setLoading] = useState(false)
+
   const columnsArray = ["appId", "balanceUSD"]; // pass columns here dynamically
 
   const handleAddRow = () => {
@@ -227,6 +238,7 @@ const App = () => {
   };
 
   const postResults = async () => {
+    setLoading(true)
     console.log(rows); // there you go, do as you please
     var scoresBody = [];
     rows.forEach(fillBody)
@@ -245,6 +257,8 @@ const App = () => {
         setFetchedData(dailyPremium)
         let annualRate = parseFloat(scores.current_rate * 100).toFixed(2)+"%";
         setFetchedRate(annualRate)
+        setLoading(false)
+
     }
   };
 
@@ -268,7 +282,12 @@ const App = () => {
     setRows(tempRows); // update state
   };
 
-  return (
+  return isLoading ? (   //Checkif if is loading
+  <Layout>
+  <Seo title="DeFi Insurance Quote" />
+    <Loader/>
+    </Layout>
+    ) : (
       <Layout>
     <Seo title="DeFi Insurance Quote" />
     <div>
@@ -277,8 +296,8 @@ const App = () => {
         <div className="float-right">
             <h3>1. Find appId by Protocol name</h3>
             <Autocomplete suggestions={result}  />
-</div>
-          <div className="col-md-12 column">
+        </div> 
+        <div className="col-md-12 column">
             <h3>2. Build Portfolio</h3>
             <table className="table table-bordered table-hover" id="tab_logic">
               <thead>

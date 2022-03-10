@@ -4,12 +4,13 @@ import Autocomplete from "../components/autocomplete";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import solaceGif from '../images/party.gif'
+import { Link } from "gatsby"
 
 const fetcher = new Fetcher(1)
 const result = [
   "aave-amm",
   "aave-safety-module",
-  "aave",
+  "aave-v1",
   "aave-v2",
   "aavegotchi",
   "abracadabra",
@@ -23,6 +24,7 @@ const result = [
   "apy",
   "arcx",
   "armor",
+  "augur",
   "autofarm",
   "b-protocol",
   "badger",
@@ -36,7 +38,6 @@ const result = [
   "beethoven-x",
   "belt",
   "benqi",
-  "bent",
   "blizz",
   "compound",
   "convex",
@@ -61,8 +62,10 @@ const result = [
   "eleven-finance",
   "ellipsis",
   "fei",
+  "float-capital",
   "float-protocol",
   "frax",
+  "gamma-strategies",
   "geist",
   "gmx",
   "governor-dao",
@@ -71,7 +74,6 @@ const result = [
   "harvest",
   "hector-dao",
   "hegic",
-  "honeyswap",
   "hop",
   "hundred-finance",
   "idle",
@@ -89,7 +91,7 @@ const result = [
   "kogefarm",
   "kyber-dmm",
   "liquity",
-  "looksrare",
+  "looks-rare",
   "loopring",
   "lydia",
   "lyra",
@@ -97,10 +99,12 @@ const result = [
   "maple",
   "mirror",
   "mooniswap",
+  "morpheus-swap",
   "mstable",
   "nexus-mutual",
   "nft20",
   "nftx",
+  "notional-finance",
   "nsure-network",
   "olympus",
   "ondo",
@@ -119,7 +123,7 @@ const result = [
   "pie-dao",
   "platypus-finance",
   "polywhale",
-  "pooltogether",
+  "pool-together",
   "pooltogether-v4",
   "popsicle",
   "powerpool",
@@ -127,7 +131,6 @@ const result = [
   "quickswap",
   "r-u-generous",
   "railgun",
-  "rari",
   "rari-fuse",
   "realt",
   "reaper",
@@ -141,10 +144,13 @@ const result = [
   "scream",
   "shapeshift",
   "shell",
+  "smoothy",
   "snowball",
   "snowbank",
   "snowdog",
   "snowswap",
+  "solarbeam",
+  "solidly",
   "spartacus",
   "spiritswap",
   "spookyswap",
@@ -153,7 +159,6 @@ const result = [
   "stormswap",
   "superfluid",
   "sushiswap",
-  "sushiswap-bentobox",
   "sushiswap-kashi",
   "swapr",
   "swerve",
@@ -166,11 +171,11 @@ const result = [
   "tokenlon",
   "tomb",
   "tornado-cash",
-  "traderjoe",
+  "trader-joe",
   "truefi",
   "ubeswap",
   "unagii",
-  "uniswap",
+  "uniswap-v1",
   "uniswap-v2",
   "uniswap-v3",
   "unit",
@@ -182,12 +187,10 @@ const result = [
   "wepiggy",
   "wonderland",
   "xsigma",
-  "xtoken",
   "yam",
   "yaxis",
   "yearn",
-  "zlot",
-  "morpheus-swap"
+  "zlot"
 ]
 
 const Loader = () => (
@@ -197,7 +200,7 @@ const Loader = () => (
      <p>If this doesn't work <a href="https://discord.solace.fi">blame Olaf!</a></p>
   </div>
 )
-
+// Used only to get array of protocols. TODO fix autosuggest.
 async function getSeries() {
     let response = await fetch('https://risk-data.solace.fi/series', {
         headers: {
@@ -213,14 +216,14 @@ async function getSeries() {
 
 const App = () => {
   
-/*    getSeries().then(function(series){
-     result = series.data.protocolMap.map(a => a.appId);
-     console.log(result);
-    return result
+ /* getSeries().then(function(series){
+     const result1 = series.data.protocolMap.map(a => a.appId);
+     console.log(result1);
+    return result1
 
    })
 
-  resulty = getSeries(); */
+  var resulty = getSeries();  */
   // console.log('suggest these ', result ) // uugh need fulfilled array not promise
   const [rows, setRows] = useState([{}]);
   const [fetchedData, setFetchedData] = useState('')
@@ -351,6 +354,12 @@ const App = () => {
           </div>
           <h2> Estimated daily cost: {fetchedData}</h2>
           <h2> Estimated annual rate: {fetchedRate}</h2>
+          <h3> Purchase policy at</h3>
+        <a href="https://solace.fi/cover?rc=0x65e3bde23bd82c8fad7877eda7b8fe03617c2016a99beab59e12b70a40563f4a166f94c20965ead1c3148dbb0cb49204ca27e26bc83a754ec573344c219e23911c">
+          <img src="https://www.solace.fi/images/sharing.png" alt="Solace" width="200" height="100" />
+        </a>
+        <h3> Check out the <Link to="/page2">portfolio simulator</Link>!</h3>
+      
         </div>
       </div>
     </div>

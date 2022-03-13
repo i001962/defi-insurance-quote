@@ -1,6 +1,6 @@
 module.exports = {
   siteMetadata: {
-    title: `Daily Cost For DeFi Wallet Insurance`,
+    title: `DeFi Wallet Insurance - test site`,
     description: `Example site using Solace.fi SDK`,
     author: `@i001962`,
     siteUrl: `https://solacesdk.netlifyapp.net/`,

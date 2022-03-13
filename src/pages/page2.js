@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Fetcher, solaceUtils, Policyholder } from "@solace-fi/sdk"
+import { Fetcher, solaceUtils, BigNumber, utils } from "@solace-fi/sdk"
 import Autocomplete from "../components/autocomplete";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -7,6 +7,8 @@ import solaceGif from '../images/party.gif'
 import { Link } from "gatsby"
 
 const fetcher = new Fetcher(1)
+const {formatUnits} = utils
+
 const result = [
   "aave-amm",
   "aave-safety-module",
@@ -200,8 +202,10 @@ const Loader = () => (
      <p>If this doesn't work <a href="https://discord.solace.fi">blame Olaf!</a></p>
   </div>
 )
+
 // Used only to get array of protocols. TODO fix autosuggest.
 async function getSeries() {
+  
     let response = await fetch('https://risk-data.solace.fi/series', {
         headers: {
             'Accept': 'application/json',
@@ -215,12 +219,11 @@ async function getSeries() {
 
 
 const App = () => {
-  
- /* getSeries().then(function(series){
+/*   
+ getSeries().then(function(series){
      const result1 = series.data.protocolMap.map(a => a.appId);
-     console.log(result1);
+     //console.log(result1);
     return result1
-
    })
 
   var resulty = getSeries();  */
@@ -352,13 +355,14 @@ const App = () => {
               Calculate
             </button>
           </div>
-          <h2> Estimated daily cost: {fetchedData}</h2>
-          <h2> Estimated annual rate: {fetchedRate}</h2>
-          <h3> Purchase policy at</h3>
+          <h3> Estimated daily cost: {fetchedData}</h3>
+          <h3> Estimated annual rate: {fetchedRate}</h3>
+          <h1> Purchase policy at</h1>
         <a href="https://solace.fi/cover?rc=0x65e3bde23bd82c8fad7877eda7b8fe03617c2016a99beab59e12b70a40563f4a166f94c20965ead1c3148dbb0cb49204ca27e26bc83a754ec573344c219e23911c">
           <img src="https://www.solace.fi/images/sharing.png" alt="Solace" width="200" height="100" />
         </a>
-        <h3> Check out the <Link to="/page2">portfolio simulator</Link>!</h3>
+        <h3> Review <Link to="/page3">policy details</Link>!</h3>
+        <h3> Find the daily rate <Link to="/"> for your portfolio</Link>!</h3>
       
         </div>
       </div>

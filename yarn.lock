@@ -2674,10 +2674,10 @@
     escape-string-regexp "^2.0.0"
     lodash.deburr "^4.1.0"
 
-"@solace-fi/sdk@^0.3.1":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@solace-fi/sdk/-/sdk-0.3.1.tgz#66b5155b3e62bc798e1623f99484c8ff54bddf48"
-  integrity sha512-kTqMfvD1cO8lB4LPvfdcW0Xj5zdWeKzoBA2onya5acNeYNBZEvpXgiv27X7MKcd3s/izOGvE0VsLadV/MeGIlQ==
+"@solace-fi/sdk@^0.3.2":
+  version "0.3.2"
+  resolved "https://registry.yarnpkg.com/@solace-fi/sdk/-/sdk-0.3.2.tgz#b88654b2de9edef52b97fc93e0e8dac144a6934d"
+  integrity sha512-K6+vwtctN/rk+xxJWIUUSuXnoYOQAk1nDYIA45J1qVD5Dk2Gh+W+ESvTncVmNXP+OcUByiWC4pjb4UeCRF4nCw==
   dependencies:
     "@web3-react/abstract-connector" "^6.0.7"
     "@web3-react/injected-connector" "^6.0.7"

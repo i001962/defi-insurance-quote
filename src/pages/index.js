@@ -79,6 +79,7 @@ const SearchForm = ({accountIn}) => {
           <img src="https://www.solace.fi/images/sharing.png" alt="Solace" width="200" height="100" />
         </a>
         <h3> Check out the <Link to="/page2">portfolio simulator</Link>!</h3>
+        <h3> Review policy <Link to="/page3"> details</Link>!</h3>
       </div>
     </div>
   )
@@ -106,7 +107,7 @@ const Loader = () => (
 const IndexPage = () => (
   <Layout>
     <Seo title="DeFi Insurance Quote" />
-    <SearchForm accountIn='0x8b80755c441d355405ca7571443bb9247b77ec16'/>
+    <SearchForm accountIn='0xbdF81b19af7848F7384c38E68208885ff0C9F390'/>
     {/* <UpdateScore /> */}
   </Layout>
 )

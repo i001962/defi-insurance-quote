@@ -20,11 +20,11 @@ const ChainForm = ({chain_id}) => {
      fetcher = new Fetcher(chain)
   }
   useEffect(() => {
-    console.log('chain changed', chain)
-    if (chain == 4) {
+    if (chain == 1 | 4 ) {
+      console.log('chain changed', chain)
       fetcher = new Fetcher(chain)
+     // resetChain()
     }
-   //resetChain()
   }, [chain])
 
   const handleChainSubmit = (e) => {

@@ -3,53 +3,37 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import { Fetcher, solaceUtils, BigNumber, utils } from "@solace-fi/sdk"
 import solaceGif from '../images/party.gif'
-import Spreadsheet from "react-spreadsheet";
 import { Link } from "gatsby"
+import Select from 'react-select'
+
+const options = [
+  { value: 1, label: 'mainnet' },
+  { value: 4, label: 'rinkeby' }
+  // ,{ value: 137, label: 'polygon' }
+
+]
+
+const ChainSelector = () => (
+  <Select options={options} />
+)
 
 let fetcher = new Fetcher(1)
 const {formatUnits} = utils
 
-const ChainForm = ({chain_id}) => {
-  const [chain, setChain] = useState(1)
-  console.log(chain)
-  console.log(chain_id)
-  
-  async function resetChain() {
-    console.log(chain)
-    // update new Fetcher instance (contains blockchain read-only methods), connected to Ethereum mainnet (chainID = 1)
-     fetcher = new Fetcher(chain)
-  }
-  useEffect(() => {
-    if (chain == 1 | 4 ) {
-      console.log('chain changed', chain)
-      fetcher = new Fetcher(chain)
-     // resetChain()
-    }
-  }, [chain])
-
-  const handleChainSubmit = (e) => {
-    e.preventDefault()
-    console.log('this is e, ', e)
-    resetChain()
-  }
+const ChainForm = () => {
+  const [selectedOption, setSelectedOption] = useState({value: 4, label: 'rinkeby'});
+  console.log(selectedOption.value)
+  fetcher = new Fetcher(selectedOption.value)
 
   return (
-    <form onSubmit={handleChainSubmit}>
-        <div className="input-field">
-          <input style={{color: "purple", fontSize: "15px", width:"375px"}} 
-            placeholder={chain}
-            type="text"
-            value={chain}
-            onChange={e => setChain(e.target.value)}
-          />
-          <div>
-            <button style={{'marginTop':'5px','background': 'rgba(95,93,249,1)','borderRadius': '8px', color: "white", fontSize: "15px", width:"175px", 'fontFamily': 'Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif','fontWeight': 'normal'}} 
-              type="submit">Set Chain
-            </button>   
-          </div> 
-        </div>
-      </form>
-  )
+    <div className="App">
+      <Select 
+        defaultValue={selectedOption}
+        onChange={setSelectedOption}
+        options={options}
+      />
+    </div>
+  );
 }
 const SearchForm = ({accountIn}) => {
   const [account, setAccounts] = useState(accountIn)
@@ -144,16 +128,10 @@ const SearchForm = ({accountIn}) => {
         <p> Total Active Cover Limit: {"$"+parseFloat(metaData.activeCoverLimit).toFixed(2)}</p>
         <p> Total Active Policies: {metaData.policyCount}</p>
         <p> Min Required Account Balance: {"$"+parseFloat(metaData.minRequiredAccountBalance).toFixed(2)}</p>
-        <h3> Estimate <Link to="/">Current Rate</Link>!</h3>
-        <h3> Check out the <Link to="/page2">portfolio simulator</Link>!</h3>
-        <h3> Review policy <Link to="/page3">details</Link>!</h3>
-        <h3> <Link to="/page4">Buy or update policy</Link>!</h3>
        </div>
     </div>
   )
 }
-
-
 
 const Loader = () => (
   <div className="loader">
@@ -166,9 +144,8 @@ const Loader = () => (
 const IndexPage = () => (
   <Layout>
     <Seo title="DeFi Insurance Quote" />
-    <ChainForm chain_id={1}/>
+    <ChainForm/>
     <SearchForm accountIn='0xfb5cAAe76af8D3CE730f3D62c6442744853d43Ef' />
-  
     </Layout>
 )
 

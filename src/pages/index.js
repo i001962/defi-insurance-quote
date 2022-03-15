@@ -78,11 +78,7 @@ const SearchForm = ({accountIn}) => {
         <a href="https://solace.fi/cover?rc=0x65e3bde23bd82c8fad7877eda7b8fe03617c2016a99beab59e12b70a40563f4a166f94c20965ead1c3148dbb0cb49204ca27e26bc83a754ec573344c219e23911c">
           <img src="https://www.solace.fi/images/sharing.png" alt="Solace" width="200" height="100" />
         </a>
-        <h3> Estimate <Link to="/">Current Rate</Link>!</h3>
-        <h3> Check out the <Link to="/page2">portfolio simulator</Link>!</h3>
-        <h3> Review policy <Link to="/page3">details</Link>!</h3>
-        <h3> <Link to="/page4">Buy or update policy</Link>!</h3>
-      </div>
+       </div>
     </div>
   )
 }

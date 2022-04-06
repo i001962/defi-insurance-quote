@@ -37,7 +37,7 @@ const Layout = ({ children }) => {
           padding: `0 1.0875rem 1.45rem`,
         }}
       >
-           <p><Link to="/">Estimate Current Rate</Link>! | <Link to="/page2">Portfolio simulator</Link>! | <Link to="/page3">Policy details</Link>! | <Link to="/exposure">Stats On All Policies</Link>!</p>
+           <p><Link to="/">Estimate Current Rate</Link> | <Link to="/page2">Portfolio simulator</Link> | <Link to="/page3">Policy details</Link> | <Link to="/voting">Voting info</Link></p>
 
         <main>{children}</main>
         <footer

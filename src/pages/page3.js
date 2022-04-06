@@ -9,7 +9,7 @@ import Select from 'react-select'
 const options = [
   { value: 1, label: 'mainnet' },
   { value: 4, label: 'rinkeby' }
-  // ,{ value: 137, label: 'polygon' }
+  ,{ value: 137, label: 'polygon' }
 
 ]
 

@@ -92,29 +92,31 @@ export function metalog(y, a, bl = "", bu = "") {
 
   let wrappedNp_a = wrappedNp_x[0].map(e => [e])
   let mky = multiply(wrappedVector, wrappedNp_a);
-
+  console.log(mky[0][0]);
+  const newMky = mky; // hacky coercion to make it work in ts
   // Unbounded
   if (typeof bl == String && typeof bu == String) {
-    return mky;
+    return newMky;
   }
   if ((typeof bl === "string" || bl instanceof String) && (typeof bu === "string" || bu instanceof String)) {
-    return mky;
+    return newMky;
   }
+  
   // Bounded lower
   else if (typeof bl !== "string" && typeof bu == "string") {
     convert_to_float(bl);
-    return bl + Math.exp(mky);
+    return bl + Math.exp(newMky);
   }
   // Bounded upper
   else if (typeof bl == "string" && typeof bu != "string") {
     convert_to_float(bu);
-    return bu - Math.exp(-mky);
+    return bu - Math.exp(-newMky);
   }
   // Bounded
   else if (typeof bl != "string" && typeof bu != "string") {
-    console.log('has bounds ', mky)
+    console.log('has bounds ', newMky)
 
-    return bl + (bu * Math.exp(mky)) / (1 + Math.exp(mky));
+    return bl + (bu * Math.exp(newMky)) / (1 + Math.exp(newMky));
   }
 }
 

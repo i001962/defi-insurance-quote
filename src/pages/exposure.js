@@ -8,7 +8,7 @@ import Select from 'react-select'
 import { add } from "lodash";
 
 const options = [
-  { value: 1, label: 'mainnet' }
+  { value: 137, label: 'polygon' }
     // ,{ value: 137, label: 'polygon' }
 ]
 
@@ -18,13 +18,15 @@ const ChainSelector = () => (
 let allAccounts = []
 var allPolicies = []
 
-let fetcher = new Fetcher(1)
+let fetcher = new Fetcher(137)
 const {formatUnits} = utils
 
 const ChainForm = () => {
-  const [selectedOption, setSelectedOption] = useState({value: 1, label: 'mainnet'});
+  const [selectedOption, setSelectedOption] = useState({value: 137, label: 'polygon'});
   console.log(selectedOption.value)
   fetcher = new Fetcher(selectedOption.value)
+  console.log( fetcher.policyCount()) // BigNumber { _hex: '0x04', _isBigNumber: true }
+
   var itsActive;
   async function fetchPolicies() {
     const getIt =  fetch (`https://risk-data.solace.fi/billings/all?chain_id=`+selectedOption.value)

@@ -1,3 +1,4 @@
+import { Provider, createClient } from 'wagmi'
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
@@ -5,8 +6,8 @@ import { Fetcher, solaceUtils, Policyholder, BigNumber,utils } from "@solace-fi/
 import solaceGif from '../images/party.gif'
 import Select from 'react-select'
 import { Link } from "gatsby"
-const { getSigner } = solaceUtils
 
+const { getSigner } = solaceUtils
 const options = [
   { value: 4, label: 'rinkeby' }
 ]

@@ -5,37 +5,34 @@ import { Fetcher, solaceUtils, Policyholder } from "@solace-fi/sdk"
 import solaceGif from '../images/party.gif'
 import Spreadsheet from "react-spreadsheet";
 import { Link } from "gatsby"
+import { hydrateLibrary, metalog, simulateSIP, listSIPs } from '../components/hydrate'
+import example_tokens from '../examples/example_tokens.json'
+import example_bounded from '../examples/example_bounded.json'
+import example_gaussian from '../examples/example_gaussian.json'
 
 const fetcher = new Fetcher(1)
 
 const SearchForm = ({accountIn}) => {
-  const [account, setAccounts] = useState(accountIn)
+  const [account, setAccounts] = useState(accountIn.toUpperCase())
   const [fetchedData, setFetchedData] = useState('')
   const [isLoading, setLoading] = useState(false)
+  
   async function fetchData() {
     console.log(account)
     setLoading(true)
-    // Trying to keep this free from needing wallet access
-    // TODO STILL- proper account validation, Can we use web3.utils.isAddress(account) without logging in?   
-    if (account.length === 42 && account.substring(0,2) === '0x') {
-      const holdPortfolio = await fetcher.getSolaceRiskBalances(account);
-      //const holdPortfolio = await fetcher.getSolaceRiskBalances_MultiChain(account,[1]);
-      console.log(holdPortfolio)
-      if (holdPortfolio.length > 0) {
-      let scores = await fetcher.getSolaceRiskScores(account, holdPortfolio);    
-      console.log(scores)
-      let dailyPremium = "$"+parseFloat(scores.address_rp / 365.25).toFixed(2);
+    const allSips = listSIPs(example_tokens)
+    console.log(allSips)
+    if (allSips.includes(account) === true) {
+      console.log('yep') // Simulate all sips in library
+      let dailyPremium = simulateSIP(example_tokens, account, 10) // Simulate a sips from library
       setFetchedData(dailyPremium)
       setLoading(false)
       } else {
-        setFetchedData("no DeFi protocols found")
+        setFetchedData("Token symbol not in library")
       setLoading(false)
       }
-    } else {
-      setFetchedData("Invalid address try: 0xbdF81b19af7848F7384c38E68208885ff0C9F390")
-      setLoading(false)
-    }
-  }
+    } 
+  
 
   async function fetchScore() {
     console.log('reprocessing')
@@ -55,11 +52,11 @@ const SearchForm = ({accountIn}) => {
     <Loader/>
     ) : (
     <div>
-      <h2>Enter Ethereum Account</h2>
+      <h2>Enter Token Symbol</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-field">
           <input style={{color: "purple", fontSize: "15px", width:"375px"}} 
-            placeholder="0xbdF81b19af7848F7384c38E68208885ff0C9F390"
+            placeholder="AAVE"
             type="text"
             value={account}
             onChange={e => setAccounts(e.target.value)}
@@ -72,8 +69,8 @@ const SearchForm = ({accountIn}) => {
         </div>
       </form>
       <div>
-        <h2> Estimated daily rate: {fetchedData}</h2>
-        <h3> Purchase policy at</h3>
+        <h2> name: {fetchedData}</h2>
+        <h3> trials</h3>
         <a href="https://solace.fi/cover?rc=0x65e3bde23bd82c8fad7877eda7b8fe03617c2016a99beab59e12b70a40563f4a166f94c20965ead1c3148dbb0cb49204ca27e26bc83a754ec573344c219e23911c">
           <img src="https://www.solace.fi/images/sharing.png" alt="Solace" width="200" height="100" />
         </a>
@@ -104,7 +101,7 @@ const Loader = () => (
 const IndexPage = () => (
   <Layout>
     <Seo title="DeFi Insurance Quote" />
-    <SearchForm accountIn='0xbdF81b19af7848F7384c38E68208885ff0C9F390'/>
+    <SearchForm accountIn=''/>
     {/* <UpdateScore /> */}
   </Layout>
 )

@@ -16,12 +16,14 @@ console.log(hydrateLibrary(example_tokens,10) )
 //console.log(metalog(example_tokens))
 console.log( simulateSIP(example_tokens, 'AAVE', 10))
 console.log(listSIPs(example_tokens))
-const y = 0.5 // variable represents the probability that a value will be occur
+const y = 0.9 // variable represents the probability that a value will be occur
 const a = example_tokens.sips[0].arguments.aCoefficients
 const bu = example_bounded.sips[3].arguments.upperBound // || ""
 const bl = example_bounded.sips[3].arguments.lowerBound // || ""
 // console.log(metalog(y, bl, bu)) // returns the value at a probability of y or lower
-console.log(metalog(y, a, "", ""))
+console.log(metalog(y, a, bl, bu))
+console.log(example_bounded)
+console.log(simulateSIP(example_bounded, 'Bounded', 10))
 
 const fetcher = new Fetcher(1)
 

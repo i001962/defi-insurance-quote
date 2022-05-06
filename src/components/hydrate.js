@@ -69,6 +69,7 @@ export function simulateSIP(selfIn, sip, simTrials) {
       returnValue.push(ml);
     }
   }
+  //console.log(returnValue)
   let merged = flatten(returnValue);
   return merged.slice(0, simTrials);
 
@@ -112,6 +113,8 @@ export function metalog(y, a, bl = "", bu = "") {
   }
   // Bounded
   else if (typeof bl != "string" && typeof bu != "string") {
+    console.log('has bounds ', mky)
+
     return bl + (bu * Math.exp(mky)) / (1 + Math.exp(mky));
   }
 }
@@ -188,9 +191,14 @@ function prepGenerateRandom(args, selfIn, simTrials) {
   // from U01/RNG
   let rngArgs = selfIn.rng.findIndex((x) => x.name === args);
   var samples = [];
-  const seedPerDist = selfIn.rng[rngArgs].arguments.varId;
+  const seedPerDistEntity = selfIn.rng[rngArgs].arguments.entity;
+  const seedPerDistVarId = selfIn.rng[rngArgs].arguments.varId;
+  const seedPerDistSeed3 = selfIn.rng[rngArgs].arguments.seed3;
+  const seedPerDistSeed4 = selfIn.rng[rngArgs].arguments.seed4;
+
   for (var distTrials = 0; distTrials < simTrials; distTrials++) {
-    samples[distTrials] = HDRando(seedPerDist, distTrials);
+    // samples[distTrials] = HDRando(seedPerDist, distTrials);
+    samples[distTrials] = HDRando2(seedPerDistEntity,seedPerDistVarId,seedPerDistSeed3, seedPerDistSeed4,distTrials);
   }
   return samples;
 }
@@ -198,29 +206,57 @@ function prepGenerateRandom(args, selfIn, simTrials) {
 // HELPER FUNCTIONS TODO: Remove need for jstat
 /*
  * hubbardresearch.com for more info. This is a function that generates the random numbers with seeds.
- * TODO update this to use all the seeds from the U01/RNG ie use HRDv2. Move into own package?
+ * TODO update this to use all the seeds from the U01/RNG ie use HRDv2. DONE! Move into own package? Nah
  */
-function HDRando(seed, PM_Index) {
-  const largePrime = 2147483647;
-  const million = 1000000;
-  const tenMillion = 10000000;
-
-  function mod(n, m) {
+function HDRando2(entityID, varId, option1, option2, PM_Index) {
+  // supports 4 variables for sip 3.0 standard
+  const largePrime = 4294967296; // there are a lot of primes. ?? Need to find out when to change them
+  // Do we need this in js? is there a modulo?
+  function MOD(n, m) {
     var remain = n % m;
     return Math.floor(remain >= 0 ? remain : remain + m);
   }
+  let randi =
+    (MOD(
+      (MOD(
+        MOD(
+          999999999999989,
+          MOD(
+            PM_Index * 2499997 +
+              varId * 1800451 +
+              entityID * 2000371 +
+              option1 * 1796777 +
+              option2 * 2299603,
+            7450589
+          ) *
+            4658 +
+            7450581
+        ) * 383,
+        99991
+      ) *
+        7440893 +
+        MOD(
+          MOD(
+            999999999999989,
+            MOD(
+              PM_Index * 2246527 +
+                varId * 2399993 +
+                entityID * 2100869 +
+                option1 * 1918303 +
+                option2 * 1624729,
+              7450987
+            ) *
+              7580 +
+              7560584
+          ) * 17669,
+          7440893
+        )) *
+        1343,
+      largePrime
+    ) +
+      0.5) /
+    largePrime;
 
-  let randi = (
-    mod(
-      (mod((seed + million) ^ (2 + (seed + million) * (PM_Index + tenMillion)), 99999989) + 1000007) * 
-        (mod(
-          (PM_Index + tenMillion) ^
-            (2 + (PM_Index + tenMillion) *
-                mod((seed + million) ^ (2 + (seed + million) * (PM_Index + tenMillion)), 99999989)),
-          99999989
-        ) + 1000013),
-      largePrime) 
-      + 0.5) / largePrime;
   return randi;
 }
 

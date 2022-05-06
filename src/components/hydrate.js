@@ -12,7 +12,7 @@ export function hydrateLibrary(LibraryIn, numberOfTrialsRequested) {
   let simLibrary = {};
   for (let i = 0; i < LibraryIn.sips.length; i++) {
     const tokenIn = LibraryIn.sips[i].name;
-    console.log(tokenIn);
+    // console.log(tokenIn);
     var output = simulateSIP(LibraryIn, tokenIn, numberOfTrialsRequested);
     simLibrary[tokenIn] = output;
   }

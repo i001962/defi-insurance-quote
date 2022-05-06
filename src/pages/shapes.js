@@ -9,6 +9,19 @@ import { hydrateLibrary, metalog, simulateSIP, listSIPs } from '../components/hy
 import example_tokens from '../examples/example_tokens.json'
 import example_bounded from '../examples/example_bounded.json'
 import example_gaussian from '../examples/example_gaussian.json'
+// Testing for hydrate in Solace SDK
+// Idea is that these methods be part of SDK
+// These fucntions will be used with the /volatility endpoint which generates files like example_tokens.json
+console.log(hydrateLibrary(example_tokens,10) )
+//console.log(metalog(example_tokens))
+console.log( simulateSIP(example_tokens, 'AAVE', 10))
+console.log(listSIPs(example_tokens))
+const y = 0.5 // variable represents the probability that a value will be occur
+const a = example_tokens.sips[0].arguments.aCoefficients
+const bu = example_bounded.sips[3].arguments.upperBound // || ""
+const bl = example_bounded.sips[3].arguments.lowerBound // || ""
+// console.log(metalog(y, bl, bu)) // returns the value at a probability of y or lower
+console.log(metalog(y, a, "", ""))
 
 const fetcher = new Fetcher(1)
 

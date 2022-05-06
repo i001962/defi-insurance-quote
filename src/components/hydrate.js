@@ -7,7 +7,6 @@
 // MUST BE in package json
 var { jStat } = require('jstat')
 
-
 export function hydrateLibrary(LibraryIn, numberOfTrialsRequested) {
   let simLibrary = {};
   for (let i = 0; i < LibraryIn.sips.length; i++) {
@@ -139,7 +138,6 @@ function generateCopula(selfy, copulaCount, simTrials) {
       let randomMatrixOfHDRs = [];
       for (let i = 0; i < copulaArgs.length; i++) {
         let val = prepGenerateRandom(copulaArgs[i], selfy.U01, simTrials); // from U01/RNG
-        /* TODO update HDRv2 using { "counter": "PM_Index","entity": 1,"varId": 6187319,"seed3": 0,"seed4": 0} */
         randomMatrixOfHDRs.push(val);
       }
 
@@ -206,7 +204,8 @@ function prepGenerateRandom(args, selfIn, simTrials) {
 // HELPER FUNCTIONS TODO: Remove need for jstat
 /*
  * hubbardresearch.com for more info. This is a function that generates the random numbers with seeds.
- * TODO update this to use all the seeds from the U01/RNG ie use HRDv2. DONE! Move into own package? Nah
+ * TODO Check trial in array position 0. Should it start with position 1 to match the how other SIPMath tools do it?      
+ *      The seeds generate the proper values for each trial but this starts at 0 not 1.
  */
 function HDRando2(entityID, varId, option1, option2, PM_Index) {
   // supports 4 variables for sip 3.0 standard

@@ -5,10 +5,12 @@ import { Fetcher, solaceUtils, Policyholder } from "@solace-fi/sdk"
 import solaceGif from '../images/party.gif'
 import Spreadsheet from "react-spreadsheet";
 import { Link } from "gatsby"
-import { hydrateLibrary, metalog, simulateSIP, listSIPs } from '../components/hydrate'
+//import { hydrateLibrary, metalog, simulateSIP, listSIPs } from '../components/hydrate'
+import { hydrateLibrary, metalog, simulateSIP, listSIPs } from "@solace-fi/hydrate"
 import example_tokens from '../examples/example_tokens.json'
 import example_bounded from '../examples/example_bounded.json'
 import example_gaussian from '../examples/example_gaussian.json'
+import { forEach } from "lodash";
 // Testing for hydrate in Solace SDK
 // Idea is that these methods be part of SDK
 // These fucntions will be used with the /volatility endpoint which generates files like example_tokens.json
@@ -31,9 +33,20 @@ const SearchForm = ({accountIn}) => {
   const [account, setAccounts] = useState(accountIn.toUpperCase())
   const [fetchedData, setFetchedData] = useState('')
   const [isLoading, setLoading] = useState(false)
-  
+  var obj;
+
   async function fetchData() {
     console.log(account)
+
+    const response = await fetch(`https://risk-data.solace.fi/price-history?tickers=${account}&window=365`)
+      .then(res => res.json())
+      .then(data => obj = data)
+      //.then(() => console.log(obj))
+    console.log(obj)  // /price-history?tickers=${account}&window=365
+    // call /volatility endpoint here
+    // call hydrate with the data from the /volatility response
+    // call metalog with the data from the /volatility response
+
     setLoading(true)
     const allSips = listSIPs(example_tokens)
     console.log(allSips)
@@ -67,7 +80,7 @@ const SearchForm = ({accountIn}) => {
     <Loader/>
     ) : (
     <div>
-      <h2>Enter Token Symbol</h2>
+      <h2>Enter Token Symbols seperated by commas</h2>
       <form onSubmit={handleSubmit}>
         <div className="input-field">
           <input style={{color: "purple", fontSize: "15px", width:"375px"}} 

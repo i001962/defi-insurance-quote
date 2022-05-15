@@ -38,6 +38,7 @@ const Layout = ({ children }) => {
         }}
       >
            <p><Link to="/">Estimate Current Rate</Link> | <Link to="/page2">Portfolio simulator</Link> | <Link to="/page3">Policy details</Link> | <Link to="/voting">Voting info</Link></p>
+           <div id="vis"></div>
 
         <main>{children}</main>
         <footer

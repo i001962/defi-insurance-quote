@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { Fetcher, solaceUtils, BigNumber, utils } from "@solace-fi/sdk"
+import { Fetcher, solaceUtils, BigNumber, utils } from "@solace-fi/sdk-nightly"
 import solaceGif from '../images/party.gif'
 import { Link } from "gatsby"
 import Select from 'react-select'

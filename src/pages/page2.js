@@ -1,12 +1,11 @@
 import React, { useState } from "react";
-import { Fetcher, solaceUtils, BigNumber, utils } from "@solace-fi/sdk"
+import { Risk, solaceUtils, BigNumber, utils } from "@solace-fi/sdk-nightly"
 import Autocomplete from "../components/autocomplete";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
 import solaceGif from '../images/party.gif'
 import { Link } from "gatsby"
 
-const fetcher = new Fetcher(1)
 const {formatUnits} = utils
 
 const result = [
@@ -195,6 +194,8 @@ const result = [
   "zlot"
 ]
 
+const risk = new Risk()
+
 const Loader = () => (
   <div className="loader">
      <h1> Loading....</h1>
@@ -257,7 +258,7 @@ const App = () => {
         }
     }
     if (scoresBody[0].balanceUSD ){
-        let scores = await fetcher.getSolaceRiskScores("", scoresBody);  
+        let scores = await risk.getSolaceRiskScores("", scoresBody);  
         console.log(scores)  
         let dailyPremium = "$"+parseFloat(scores.address_rp / 365.25).toFixed(2);
         setFetchedData(dailyPremium)

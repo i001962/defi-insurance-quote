@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { Fetcher, solaceUtils, Policyholder } from "@solace-fi/sdk"
+import { Risk, solaceUtils, Policyholder } from "@solace-fi/sdk-nightly"
 import solaceGif from '../images/party.gif'
 import Spreadsheet from "react-spreadsheet";
 import { Link } from "gatsby"
 
-const fetcher = new Fetcher(1)
+const risk = new Risk()
 
 const SearchForm = ({accountIn}) => {
   const [account, setAccounts] = useState(accountIn)
@@ -18,11 +18,11 @@ const SearchForm = ({accountIn}) => {
     // Trying to keep this free from needing wallet access
     // TODO STILL- proper account validation, Can we use web3.utils.isAddress(account) without logging in?   
     if (account.length === 42 && account.substring(0,2) === '0x') {
-      const holdPortfolio = await fetcher.getSolaceRiskBalances(account);
-      //const holdPortfolio = await fetcher.getSolaceRiskBalances_MultiChain(account,[1]);
+      const holdPortfolio = await risk.getSolaceRiskBalances(account,1);
+      //const holdPortfolio = await risk.getSolaceRiskBalances_MultiChain(account,[1]);
       console.log(holdPortfolio)
       if (holdPortfolio.length > 0) {
-      let scores = await fetcher.getSolaceRiskScores(account, holdPortfolio);    
+      let scores = await risk.getSolaceRiskScores(account, holdPortfolio);    
       console.log(scores)
       let dailyPremium = "$"+parseFloat(scores.address_rp / 365.25).toFixed(2);
       setFetchedData(dailyPremium)

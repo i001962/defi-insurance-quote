@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { Fetcher, solaceUtils, Policyholder } from "@solace-fi/sdk"
+import { xSolaceBalance, SolaceBalance, Policyholder } from "@solace-fi/sdk-nightly"
 import solaceGif from '../images/party.gif'
 import Spreadsheet from "react-spreadsheet";
 import { Link } from "gatsby"
 
-// Create new Fetcher instance (contains blockchain read-only methods), connected to Ethereum mainnet (chainID = 1)
-const fetcher = new Fetcher(1)
 async function getVotePower() {  
   let response = await fetch('https://stats.solace.fi/votePower', {
       headers: {
@@ -32,23 +30,33 @@ const SearchForm = ({accountIn}) => {
     // Trying to keep this free from needing wallet access
     // TODO STILL- proper account validation, Can we use web3.utils.isAddress(account) without logging in?   
     if (account.length === 42 && account.substring(0,2) === '0x') {
-      const voterPower = await getVotePower(account);
-      console.log(voterPower)
-      if (voterPower) {
+      const XSolaceBalance = new xSolaceBalance(account)
+      const solaceBalance = new SolaceBalance("0x499dd900f800fd0a2ed300006000a57f00fa009b")
+
+      //
+      let myobj2 = await solaceBalance.getSolaceBalanceOf(1) 
+      //let votePower2 = JSON.parse(myobj2);
+      console.log('getSolaceBalanceOf', myobj2)
+      
+      let votePower3 = await XSolaceBalance.getXSolaceBalanceSum() 
+      console.log('getXSolaceBalanceSum',votePower3)
+      
+      let myobj = await XSolaceBalance.getAllXSolaceBalances() 
+      let votePower = JSON.parse(myobj);
+      console.log('getAllXSolaceBalances',myobj)
+
+      let xsolvote1 = await XSolaceBalance.getXSolaceBalanceOf(1)
+      let holder1 = JSON.parse(xsolvote1);
+      console.log('getXSolaceBalanceOf',xsolvote1)
+
+      if (votePower) {
         let votes = 0;
         let notfound = 'no voting power found'
         let totalVotes = 0;
-        Object.entries(voterPower).forEach(([key, value]) => {
-          if (key.toLowerCase() === account.toLowerCase()) {
-            console.log(`${key} ${value}`)
-            votes = value;
-          }
-          totalVotes += value;
-          setFetchedData(votes.toLocaleString())
-          setFetchedData2(totalVotes.toLocaleString())
-          setFetchedData3(((Number(votes)/Number(totalVotes))*100).toFixed(2)+'%')
-          setLoading(false)
-        })
+        setFetchedData(votePower3.toLocaleString())
+        setFetchedData2(totalVotes.toLocaleString())
+        setFetchedData3(((Number(votes)/Number(totalVotes))*100).toFixed(2)+'%')
+        setLoading(false)
         if (votes == 0) {
           setFetchedData(notfound)
           setLoading(false)

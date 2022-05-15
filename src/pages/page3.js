@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../components/layout"
 import Seo from "../components/seo"
-import { Fetcher, solaceUtils, BigNumber, utils } from "@solace-fi/sdk"
+import { Coverage, solaceUtils, BigNumber, utils } from "@solace-fi/sdk-nightly"
 import solaceGif from '../images/party.gif'
 import { Link } from "gatsby"
 import Select from 'react-select'
@@ -17,14 +17,14 @@ const ChainSelector = () => (
   <Select options={options} />
 )
 
-let fetcher = new Fetcher(1)
+let coverage = new Coverage(1)
+
 const {formatUnits} = utils
 
 const ChainForm = () => {
   const [selectedOption, setSelectedOption] = useState({value: 4, label: 'rinkeby'});
   console.log(selectedOption.value)
-  fetcher = new Fetcher(selectedOption.value)
-
+  coverage = new Coverage(selectedOption.value)
   return (
     <div className="App">
       <Select 
@@ -49,28 +49,28 @@ const SearchForm = ({accountIn}) => {
     if (account.length === 42 && account.substring(0,2) === '0x') {
       var stats = {};
     //setLoading(true)
-    const activeCoverLimit = await fetcher.activeCoverLimit()
+    const activeCoverLimit = await coverage.activeCoverLimit()
     stats.activeCoverLimit = parseFloat(formatUnits(activeCoverLimit.toString(), 18))
-    const availableCoverCapacity = await fetcher.availableCoverCapacity() // BigNumber { _hex: '0x13419b9a2817b2b8ca00', _isBigNumber: true }
+    const availableCoverCapacity = await coverage.availableCoverCapacity() // BigNumber { _hex: '0x13419b9a2817b2b8ca00', _isBigNumber: true }
     stats.availableCoverCapacity = parseFloat(formatUnits(availableCoverCapacity.toString(), 18))    
-    const maxCover = await fetcher.maxCover() 
+    const maxCover = await coverage.maxCover() 
     stats.maxCover = parseFloat(formatUnits(maxCover.toString()))
-    const policyCount = await fetcher.policyCount() 
+    const policyCount = await coverage.policyCount() 
     stats.policyCount =parseFloat(formatUnits(  policyCount.toString(),0))    
-    const accountBalanceOf = await fetcher.accountBalanceOf(account) 
+    const accountBalanceOf = await coverage.accountBalanceOf(account) 
     stats.accountBalanceOf = parseFloat(formatUnits( accountBalanceOf.toString()))    
-    const policyNum = await fetcher.policyOf(account)
+    const policyNum = await coverage.policyOf(account)
     stats.policyNum= parseFloat(formatUnits(policyNum.toString(),0))
-    const policyCover = await fetcher.coverLimitOf(parseFloat(formatUnits(  policyNum.toString(),0)))
+    const policyCover = await coverage.coverLimitOf(parseFloat(formatUnits(  policyNum.toString(),0)))
     stats.policyCoverLimit=formatUnits( policyCover)    
-    const minAccntBal = await fetcher.minRequiredAccountBalance(activeCoverLimit) 
+    const minAccntBal = await coverage.minRequiredAccountBalance(activeCoverLimit) 
     stats.minRequiredAccountBalance=formatUnits(minAccntBal)
-    const policyStatus =  await fetcher.policyStatus(policyNum) 
+    const policyStatus =  await coverage.policyStatus(policyNum) 
     stats.policyStatus =  policyStatus
-    const rewardPointsOf = await fetcher.rewardPointsOf(account)
+    const rewardPointsOf = await coverage.rewardPointsOf(account)
     console.log(policyStatus)
     stats.rewardPointsOf=formatUnits(  rewardPointsOf.toString())
-    stats.wasReferredIn =  await fetcher.isReferralCodeUsed(account) // false
+    stats.wasReferredIn =  await coverage.isReferralCodeUsed(account) // false
     console.log('yo dog: ', stats)
     setMetaData(stats)
     setLoading(false)

@@ -7,7 +7,10 @@ import vegaEmbed from 'vega-embed'
 import { hydrateLibrary, metalog, simulateSIP, listSIPs, p, q } from "@solace-fi/hydrate"
 import example_tokens from '../examples/example_tokens.json'
 import priceHist from '../examples/price-history.json'
+import SipState from '../components/sipState'
 
+const currentPrice = 1.1 //plug for now
+const noChange = 1 // plug for now, represents last close price
 function EnterForm({ accountIn }) {
   const [account, setAccounts] = useState(accountIn.toUpperCase())
   const [isLoading, setLoading] = useState(false)
@@ -24,14 +27,15 @@ function EnterForm({ accountIn }) {
         "values": dataInHere
       },
       layer: [{
-        mark: "bar",
+        mark: "area",
         params: [{
           name: "brush",
           select: { type: "interval", encodings: ["x"] }
         }],
         encoding: {
-          x: { field: "x", bin: true },
-          y: { aggregate: "count" }
+          x: { field: "x", bin: true, scale: {domain: [0.5,1.5 ]} },
+          y: { aggregate: "count" },
+          autosize:{type:"none"}
         },
         opacity: {
           condition: {
@@ -46,7 +50,7 @@ function EnterForm({ accountIn }) {
         },
         mark: {
           type: "rule",
-          //"strokeDash": [4,6]
+          "strokeDash": [4,6]
         },
         encoding: {
           x: { field: "data", type: "quantitative" },
@@ -55,7 +59,8 @@ function EnterForm({ accountIn }) {
         }
       }],
       datasets: {
-        splitvalues: [1, 1]
+        //splitvalues: [noChange, currentPrice]
+        splitvalues: [noChange]
       }
     }
   }
@@ -85,24 +90,6 @@ function EnterForm({ accountIn }) {
     })
   }
 
-  async function fetchOnSubmit() {
-    const response = await fetch(`https://risk-data.solace.fi/price-history?tickers=${account}&window=365`)
-      .then(res => res.json())
-      .then((inhere) => {console.log(inhere);
-        let priceArry = []
-        priceHist[account].forEach((element, index) => {
-          // console.log(element.price)
-          //  { "x": 1, "y": 5 },
-          priceArry.push({x: element.change, y: index})
-        });
-       // console.log(priceArry)
-        return priceArry
-      }).catch(err => console.log(err))
-    // console.log(response)
-    // console.log(priceHist)
-    
-  }
-
   useEffect(() => {
     // console.log(getVar)
   }, [getVar])
@@ -110,7 +97,7 @@ function EnterForm({ accountIn }) {
   const handleSubmit = e => {
     e.preventDefault()
     async function fetchOnSubmit1() {
-      const response = await fetch(`https://risk-data.solace.fi/price-history?tickers=${account}&window=365`)
+      const response = await fetch(`https://risk-data.solace.fi/price-history?tickers=${account}&window=1000`)
         .then(res => res.json())
         .then((inhere) => {console.log(inhere);
           let priceArry = []
@@ -150,10 +137,28 @@ function EnterForm({ accountIn }) {
           </div>
         </div>
       </form>
-      <p>Left tail: {getVar.x[0].toFixed(2)} probability: {getVar.p[0].toFixed(4)}</p>
-      <p>Right tail: {getVar.x[1].toFixed(2)} probability: {getVar.p[1].toFixed(4)}</p>
-      <p>Range tail: {getVar.r[0].toFixed(2)} Range prob: {getVar.r[1].toFixed(4)}</p>
-
+      <table>
+        <tr>
+        <th></th>
+        <th>Left</th>
+        <th>Right</th>
+        <th>Range</th>
+        </tr>
+        <tbody>
+        <tr>
+        <th>Value</th>
+          <td>{getVar.x[0].toFixed(3)}</td>
+          <td>{getVar.x[1].toFixed(3)}</td>
+          <td>{getVar.r[0].toFixed(3)}</td>
+        </tr>
+        <tr>
+        <th>Probability of Value (or less)</th>
+          <td>{(getVar.p[0].toFixed(4)*100).toFixed(3)}%</td>
+          <td>{(getVar.p[1].toFixed(4)*100).toFixed(3)}%</td>
+          <td>{(getVar.r[1].toFixed(4)* 100).toFixed(3)}%</td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   )
 }
@@ -169,6 +174,7 @@ const IndexPage = () => (
       <Seo title="Value at Risk" />
       <h1>Token Symbol</h1>
       <EnterForm accountIn='AAVE'/>
+      <SipState />
     </Layout>
   )
   

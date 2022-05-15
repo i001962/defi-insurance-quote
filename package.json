@@ -18,6 +18,7 @@
     "gatsby-plugin-sharp": "^4.8.0",
     "gatsby-source-filesystem": "^4.8.0",
     "gatsby-transformer-sharp": "^4.8.0",
+    "gun": "^0.2020.1237",
     "prop-types": "^15.8.0",
     "react": "^17.0.1",
     "react-card-component": "^0.0.1-beta.5.9.3",

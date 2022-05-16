@@ -8,6 +8,8 @@ import { hydrateLibrary, metalog, simulateSIP, listSIPs, p, q } from "@solace-fi
 import example_tokens from '../examples/example_tokens.json'
 import priceHist from '../examples/price-history.json'
 import SipState from '../components/sipState'
+import GetPrice from '../components/getPrices'
+import { last } from 'lodash'
 
 const currentPrice = 1.1 //plug for now
 const noChange = 1 // plug for now, represents last close price
@@ -16,8 +18,10 @@ function EnterForm({ accountIn }) {
   const [isLoading, setLoading] = useState(false)
   const [getVar, setVar] = useState({ x: [1, 1], p: [100, 100], r: [1, 1] })
 
-  const getVegaHistogramSpec = (dataInHere) => {
-    // console.log(dataInHere)
+  const getVegaHistogramSpec = (dataInHere, currentPriceIn) => {
+ 
+    console.log(currentPriceIn)
+    //currentPriceIn = 1.111
     return {
       "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
       "description": "Google's stock price over time.",
@@ -33,7 +37,7 @@ function EnterForm({ accountIn }) {
           select: { type: "interval", encodings: ["x"] }
         }],
         encoding: {
-          x: { field: "x", bin: true, scale: {domain: [0.5,1.5 ]} },
+          x: { field: "x", bin: true}, //, scale: {domain: [0.5,1.5 ]} },
           y: { aggregate: "count" },
           autosize:{type:"none"}
         },
@@ -46,7 +50,7 @@ function EnterForm({ accountIn }) {
       },
       {
         data: {
-          name: "splitvalues"
+          name: "lastClose"
         },
         mark: {
           type: "rule",
@@ -57,17 +61,30 @@ function EnterForm({ accountIn }) {
           color: { value: "black" },
           size: { value: 3 }
         }
+      },{
+        data: {
+          name: "currentPrice"
+        },
+        mark: {
+          type: "rule",
+        },
+        encoding: {
+          x: { field: "data", type: "quantitative" },
+          color: { value: "green" },
+          size: { value: 3 }
+        }
       }],
       datasets: {
-        //splitvalues: [noChange, currentPrice]
-        splitvalues: [noChange]
+        lastClose: [dataInHere[0].x],
+        currentPrice: [currentPriceIn]
+
       }
     }
   }
 
-  function fetchData(dataIn) {
+  function fetchData(dataIn, cuurentPriceIn) {
     // console.log('fetching data', dataIn)
-    vegaEmbed('#vis', getVegaHistogramSpec(dataIn)).then((result) => {
+    vegaEmbed('#vis', getVegaHistogramSpec(dataIn,cuurentPriceIn)).then((result) => {
       const view = result.view
       const spec = result.vgSpec
       // console.log(spec)
@@ -75,14 +92,15 @@ function EnterForm({ accountIn }) {
       view.addSignalListener("brush", (name, value) => {
         // console.log('New ' + name + ' event:\n', JSON.stringify(value, null, 2))
         if (Object.keys(value).length === 0) {
-          setVar({ x: [1, 1], p: [100, 100], r: [1, 1] })
+          setVar({ x: [1, 1], p: [100, 100], r: [1, 1],  })
         } else {
             function isSip(sip) {
               return sip.name === account;
             }
             const sipInfo = example_tokens.sips.find(isSip);
-
-            value.p = p(value.x, sipInfo.arguments.aCoefficients, "", "")
+            // todo need bursh value to be on the change not the absolute price or convert it
+            const converted = value.x.map(function(x) { return x / cuurentPriceIn; });
+            value.p = p(converted, sipInfo.arguments.aCoefficients, "", "")
             value.r = [value.x[1] - value.x[0], value.p[1] - value.p[0]]
             setVar(value)
         }
@@ -96,26 +114,40 @@ function EnterForm({ accountIn }) {
 
   const handleSubmit = e => {
     e.preventDefault()
+
     async function fetchOnSubmit1() {
-      const response = await fetch(`https://risk-data.solace.fi/price-history?tickers=${account}&window=1000`)
+      let priceArry; 
+      const currentPrice = await fetch(`https://api.covalenthq.com/v1/pricing/tickers/?quote-currency=USD&format=JSON&tickers=${account}&key=ckey_800c35e3d0564345b0d37661f89`)
+              .then(res => res.json())
+              .then((inhere) => {console.log(inhere);
+                //let priceArry = []
+                inhere.data.items.forEach((element, index) => {
+                  console.log(element.quote_rate)
+                  //priceArry.push(element.quote_rate)
+                  priceArry =element.quote_rate
+                });
+               console.log(priceArry)
+                return priceArry
+              }).catch(err => console.log(err))
+      
+      const response = await fetch(`https://risk-data.solace.fi/price-history?tickers=${account}&window=365`)
         .then(res => res.json())
         .then((inhere) => {console.log(inhere);
+          const lastNightPrice = inhere[account][0].price
+          console.log(lastNightPrice)
           let priceArry = []
           inhere[account].forEach((element, index) => {
-            // console.log(element.price)
-            //  { "x": 1, "y": 5 },
-            priceArry.push({x: element.change, y: index})
+            priceArry.push({x: element.change * lastNightPrice, y: index, p: element.change})
           });
-         // console.log(priceArry)
           return priceArry
         }).catch(err => console.log(err))
-      // console.log(response)
-      // console.log(priceHist)
-      fetchData(response)
+      
+      fetchData(response, currentPrice)
     }
+
     fetchOnSubmit1()
     //const data = await fetchOnSubmit1()
-    // console.log(data)
+    //  /console.log(data)
     //fetchData(data)
   }
 

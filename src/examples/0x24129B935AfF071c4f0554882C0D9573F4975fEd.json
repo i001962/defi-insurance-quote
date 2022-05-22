@@ -1,0 +1,178 @@
+[
+    {
+        "account": "0x5934807cC0654d46755eBd2848840b616256C6Ef",
+        "balance": 304.92791385
+    },
+    {
+        "account": "0xfEA5E213bbD81A8a94D0E1eDB09dBD7CEab61e1c",
+        "balance": 6.167962613977938
+    },
+    {
+        "account": "0x81E1c690b39053A96Ee6F85F638DdF56EFFC2B62",
+        "balance": 1.2256825055281002
+    },
+    {
+        "account": "0xb6B447bA23B8775bd201b8ce52179DEd13De1fe4",
+        "balance": 1.2
+    },
+    {
+        "account": "0xF930EBBd05eF8b25B1797b9b2109DDC9B0d43063",
+        "balance": 0.9000786202493415
+    },
+    {
+        "account": "0x227e4635c5fe22D1e36daB1C921B62f8ACC451b9",
+        "balance": 0.622166155127515
+    },
+    {
+        "account": "0xb36a0671B3D49587236d7833B01E79798175875f",
+        "balance": 0.530510595558589
+    },
+    {
+        "account": "0x88a481B7274E9ab297c8845d14596Df5bE1CDa44",
+        "balance": 0.24726218557149915
+    },
+    {
+        "account": "0x40ec5B33f54e0E8A33A975908C5BA1c14e5BbbDf",
+        "balance": 0.1242047481412346
+    },
+    {
+        "account": "0x60523Cd3F5CF0061C6f042545371Fa6ff8cD397B",
+        "balance": 0.017189798518534943
+    },
+    {
+        "account": "0x45929f86f3C3C9B439c086A347386b593F82D3c0",
+        "balance": 0.01084403997681761
+    },
+    {
+        "account": "0xcB89E891c581FBE0bea4Fac2ba9829D816515a81",
+        "balance": 0.01041244414628163
+    },
+    {
+        "account": "0x797f8d22f931Dd422A30d710078C9f1843e11c5d",
+        "balance": 0.007928971894403072
+    },
+    {
+        "account": "0xE967650829b407BA36cf88c0FCC1515b0E3C1F79",
+        "balance": 0.00071476180948322
+    },
+    {
+        "account": "0x076e0C2be3A778E002DEfB27f6DB84A8493Cf677",
+        "balance": 0.000379
+    },
+    {
+        "account": "0x3A2EB9173697E99B4A45Cfb4fFB185652030796a",
+        "balance": 0.0001
+    },
+    {
+        "account": "0x896022620cA215a0E5C8510095f194f46C3470Db",
+        "balance": 0.000003735526374418
+    },
+    {
+        "account": "0x448E871a9911AB6d67350C85747e8D50df2c5318",
+        "balance": 1.628e-10
+    },
+    {
+        "account": "0x11D25c6C78884BbF8Ecfa035774a772c15932A6e",
+        "balance": 8.666614e-11
+    },
+    {
+        "account": "0x621370F543D4e829Ce5ca06adDAB3E784B90d06C",
+        "balance": 5.623796e-12
+    },
+    {
+        "account": "0xa74462562Fb7dF131a7D8E8cB50C69D04D759a27",
+        "balance": 1.548e-15
+    },
+    {
+        "account": "0xA6FbeaaC65DE6d6fC900d95932D9320AaD9128f0",
+        "balance": 1.461e-15
+    },
+    {
+        "account": "0x1FE9Fd1156688699F4ca017E72ee0D9873f9d758",
+        "balance": 1.006e-15
+    },
+    {
+        "account": "0x549C0421c69Be943A2A60e76B19b4A801682cBD3",
+        "balance": 1e-15
+    },
+    {
+        "account": "0x7224D1965F85572750A7BfB6845759DE52A8B76A",
+        "balance": 8.71e-16
+    },
+    {
+        "account": "0x091d8de14dC0db1C7266aFC1726880dc532Fb90c",
+        "balance": 8.1e-16
+    },
+    {
+        "account": "0x8FE9aa966b726895A95353B56b4f3D2B34046b80",
+        "balance": 7.22e-16
+    },
+    {
+        "account": "0x284A5Dd5B0e0D5Fa143E62c56Bc2c71ECf006E32",
+        "balance": 3e-16
+    },
+    {
+        "account": "0x3C9002CdB61C56B89467D94a2D93235DFD698089",
+        "balance": 3e-16
+    },
+    {
+        "account": "0x68B4683475747E28a83596e94b58187d452099Cf",
+        "balance": 1e-16
+    },
+    {
+        "account": "0x8ECf8017CDe21c8c8eC1a70e89f139488894F613",
+        "balance": 1e-16
+    },
+    {
+        "account": "0xdD23AbB2227b4a3aDD86051810e03791F41C34E4",
+        "balance": 1e-16
+    },
+    {
+        "account": "0x3dD48AD861F0B77D1312F9C95A13e52871Ca95e0",
+        "balance": 7e-17
+    },
+    {
+        "account": "0xd6137678698f5304bEf86262332Be671618d5d08",
+        "balance": 5.9e-17
+    },
+    {
+        "account": "0xB6cA5D1Ed0cA4bf8444C9dEE2D068a9F4C5e2e92",
+        "balance": 2e-17
+    },
+    {
+        "account": "0x7088C5611dAE159A640d940cde0a3221a4af8896",
+        "balance": 2e-17
+    },
+    {
+        "account": "0xd56b98fe204C467Ae2ACdd585f19601a9456790e",
+        "balance": 1.4e-17
+    },
+    {
+        "account": "0x8Da29a7b1f8a2F7c47F6A89caB6e4c76d3754581",
+        "balance": 1e-17
+    },
+    {
+        "account": "0xaaFdd768fA83EF7af0e19707F2BE9d1DB1924766",
+        "balance": 1e-17
+    },
+    {
+        "account": "0xC5c3756e6dd41D6B5DAf69c89323d66CEb8665B3",
+        "balance": 1e-17
+    },
+    {
+        "account": "0xf48578E2Fdf3B098Bf0C6c4A5DD1E023C47bf04c",
+        "balance": 9e-18
+    },
+    {
+        "account": "0x8dA35B920fE236a757a0FAD93D3a3ab8eA0a24cC",
+        "balance": 9e-18
+    },
+    {
+        "account": "0x67941779E59CEFDBc61Af9Cb047d44C173301795",
+        "balance": 7e-18
+    },
+    {
+        "account": "0x03b547FAcD41f00A22b14Bb8D810A3750e13007d",
+        "balance": 4e-18
+    }
+]

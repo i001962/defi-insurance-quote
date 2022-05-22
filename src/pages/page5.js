@@ -99,7 +99,7 @@ function EnterForm({ accountIn }) {
             }
             const sipInfo = example_tokens.sips.find(isSip);
             // todo need bursh value to be on the change not the absolute price or convert it
-            const converted = value.x.map(function(x) { return x / cuurentPriceIn; });
+            const converted = value.balance.map(function(x) { return x / cuurentPriceIn; });
             value.p = p(converted, sipInfo.arguments.aCoefficients, "", "")
             value.r = [value.x[1] - value.x[0], value.p[1] - value.p[0]]
             setVar(value)

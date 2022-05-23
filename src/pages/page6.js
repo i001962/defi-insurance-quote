@@ -11,6 +11,7 @@ import SipState from '../components/sipState'
 import GetPrice from '../components/getPrices'
 import { last } from 'lodash'
 import Stakedao from '../examples/0x1531c1a63a169ac75a2daae399080745fa51de44.json'
+//import Stakedao from '../examples/0xfd3300a9a74b3250f1b2abc12b47611171910b07.json'
 
 const currentPrice = 1.1 //plug for now
 const noChange = 1 // plug for now, represents last close price
@@ -27,7 +28,6 @@ function EnterForm({ accountIn  }) {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
       "description": "Google's stock price over time.",
       "title": ["Contract Token Holders", "Tap to select a range..."],
-  
       "data": {
         "values": dataInHere
       },
@@ -40,7 +40,9 @@ function EnterForm({ accountIn  }) {
           "encoding": {
             "x": {"field": "balance", "bin": true},
             "y": {"aggregate": "count"}
-          }
+          },
+          //"mark": "rule",
+          //"encoding": {"x": {"field": "balance", "type": "temporal"}}
         },
         {
           "transform": [{"filter": {"selection": "brush"}}],
@@ -61,6 +63,14 @@ function EnterForm({ accountIn  }) {
       const view = result.view
       const spec = result.vgSpec
       // console.log(spec)
+
+      view.addEventListener('click', function(event, item) {
+        console.log('CLICK', event, item);
+
+      });
+/*        view.data('data_0').slice().map(function(d) {
+         console.log(d); // fires for each data item in the view
+      });  */
 
       view.addSignalListener("brush", (name, value) => {
         console.log('New ' + name + ' event:\n', JSON.stringify(value, null, 2))

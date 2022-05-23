@@ -1,0 +1,58 @@
+[
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0x30fa046ba48c193230722ec9068ba7234e40ffd2.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0x59bd6774c22486d9f4fab2d448dce4f892a9ae25.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0x5af15DA84A4a6EDf2d9FA6720De921E1026E37b7.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0x5ca8ffe4dad9452ed880fa429dd0a08574225936.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0x7d60F21072b585351dFd5E8b17109458D97ec120.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0x8691927a91a032c23b895130074669f52cf6b1e7.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0x989273ec41274c4227bcb878c2c26fdd3afbe70d.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0xB17640796e4c27a39AF51887aff3F8DC0daF9567.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0xbfb6f7532d2db0fe4d83abb001c5c2b0842af4db.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0xCD6997334867728ba14d7922f72c893fcee70e84.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0xd8553552f8868c1ef160eedf031cf0bcf9686945.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0xdb55b77f5e8a1a41931684cf9e4881d24e6b6cc9.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0xf317379b10d370fec6b8103ef2da5007d1890def.json"
+    },
+    {
+        "name": "StakeDao",
+        "holdersEndpoint": "https://share.solace.fi/holders/0xfd3300a9a74b3250f1b2abc12b47611171910b07.json"
+    }
+]

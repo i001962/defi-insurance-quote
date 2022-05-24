@@ -22,9 +22,121 @@ function EnterForm({ accountIn  }) {
   const rateOnLine = 0.025 // TODO need contract to appId Mapping then fetch from series
   const getVegaHistogramSpec = (dataInHere) => {
  
-    console.log(dataInHere.balance)
+    console.log(dataInHere)
     //currentPriceIn = 1.111
-    return {
+
+    let spec2 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "data": {
+        "values": dataInHere
+      },
+      "layer": [
+        {
+          "selection": {
+            "brush": {"type": "interval", "encodings": ["x"]}
+          },
+
+          "transform": [{
+            "sort": [{"field": "balance"}],
+            "window": [{"op": "count", "field": "count", "as": "Cumulative Count"}],
+            "frame": [null, 0]
+          }],
+          "mark": "line",
+          "encoding": {
+            "x": {
+              "field": "balance",
+              "type": "quantitative"
+            },
+            "y": {
+              "field": "Cumulative Count",
+              "type": "quantitative"
+            }
+          }
+        }
+      ]
+    }
+    
+    let spec1 = {
+      "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+      "description": "Relative frequency histogram. The data is binned with first transform. The number of values per bin and the total number are calculated in the second and third transform to calculate the relative frequency in the last transformation step.",
+      "data": {
+        "values": dataInHere
+      },
+      "layer": [
+        {
+          "selection": {
+            "brush": {"type": "interval", "encodings": ["x"]}
+          },
+        "transform": [
+          {
+            "bin": true,
+            "field": "balance",
+            "as": "bin_balance"
+          },
+          {
+            "aggregate": [
+              {
+                "op": "count",
+                "as": "Count"
+              }
+            ],
+            "groupby": [
+              "bin_balance",
+              "bin_balance_end"
+            ]
+          },
+          {
+            "joinaggregate": [
+              {
+                "op": "sum",
+                "field": "Count",
+                "as": "TotalCount"
+              }
+            ]
+          },
+          {
+            "calculate": "datum.Count/datum.TotalCount",
+            "as": "PercentOfTotal"
+          }
+        ],
+        "mark": {
+          "type": "bar",
+          "tooltip": true
+        },
+        "encoding": {
+          "x": {
+            "title": "Token Holders",
+            "field": "bin_balance",
+            "bin": {
+              "binned": true
+            }
+          },
+          "x2": {
+            "field": "bin_balance_end"
+          },
+          "y": {
+            "title": "Relative Frequency",
+            "field": "PercentOfTotal",
+            "type": "quantitative",
+            "axis": {
+              "format": ".1~%"
+            }
+          }
+        },
+        
+          "transform": [{"filter": {"selection": "brush"}}],
+          "mark": "bar",
+          "encoding": {
+            "x": {"field": "balance", "bin": true},
+            "y": {"aggregate": "count"},
+            "color": {"value": "goldenrod"}
+          }
+        
+      }
+      ]
+    }
+
+    let spec = {
       "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
       "description": "Google's stock price over time.",
       "title": ["Contract Token Holders", "Tap to select a range..."],
@@ -55,6 +167,9 @@ function EnterForm({ accountIn  }) {
         }
       ]
     }
+
+
+    return spec2
   }
 
   function fetchData(dataIn) {
@@ -72,7 +187,7 @@ function EnterForm({ accountIn  }) {
          console.log(d); // fires for each data item in the view
       });  */
 
-      view.addSignalListener("brush", (name, value) => {
+       view.addSignalListener("brush", (name, value) => {
         console.log('New ' + name + ' event:\n', JSON.stringify(value, null, 2))
         if (Object.keys(value).length === 0) {
           setVar({ x: [1, 1], p: [100, 100], r: [1, 1], a: [1, 1], cl: [0, 0.025] })
@@ -100,7 +215,7 @@ function EnterForm({ accountIn  }) {
 
             setVar(value)
         }
-      })
+      })  
     })
   }
 

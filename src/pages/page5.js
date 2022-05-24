@@ -9,7 +9,7 @@ import example_tokens from '../examples/example_tokens.json'
 import priceHist from '../examples/price-history.json'
 import SipState from '../components/sipState'
 import GetPrice from '../components/getPrices'
-import { last } from 'lodash'
+import { ceil, last } from 'lodash'
 
 const currentPrice = 1.1 //plug for now
 const noChange = 1 // plug for now, represents last close price
@@ -22,6 +22,7 @@ function EnterForm({ accountIn }) {
  
     console.log(currentPriceIn)
     //currentPriceIn = 1.111
+
     return {
       "$schema": "https://vega.github.io/schema/vega-lite/v4.json",
       "description": "Google's stock price over time.",
@@ -31,7 +32,7 @@ function EnterForm({ accountIn }) {
         "values": dataInHere
       },
       layer: [{
-        mark: "area",
+        mark: "bar",
         params: [{
           name: "brush",
           select: { type: "interval", encodings: ["x"] }
@@ -82,24 +83,26 @@ function EnterForm({ accountIn }) {
     }
   }
 
-  function fetchData(dataIn, cuurentPriceIn) {
+  function fetchData(dataIn, curentPriceIn) {
     // console.log('fetching data', dataIn)
-    vegaEmbed('#vis', getVegaHistogramSpec(dataIn,cuurentPriceIn)).then((result) => {
+    vegaEmbed('#vis', getVegaHistogramSpec(dataIn,curentPriceIn)).then((result) => {
       const view = result.view
       const spec = result.vgSpec
       // console.log(spec)
 
       view.addSignalListener("brush", (name, value) => {
-        // console.log('New ' + name + ' event:\n', JSON.stringify(value, null, 2))
+        console.log('New ' + name + ' event:\n', JSON.stringify(value, null, 2))
         if (Object.keys(value).length === 0) {
-          setVar({ x: [1, 1], p: [100, 100], r: [1, 1],  })
+          setVar({ x: [1, 1], p: [100, 100], r: [1, 1]  })
         } else {
             function isSip(sip) {
               return sip.name === account;
             }
             const sipInfo = example_tokens.sips.find(isSip);
+            console.log(sipInfo)
+            console.log(value.x)
             // todo need bursh value to be on the change not the absolute price or convert it
-            const converted = value.balance.map(function(x) { return x / cuurentPriceIn; });
+            const converted = value.x.map(function(x) { return ( (x / curentPriceIn )) });
             value.p = p(converted, sipInfo.arguments.aCoefficients, "", "")
             value.r = [value.x[1] - value.x[0], value.p[1] - value.p[0]]
             setVar(value)
@@ -139,6 +142,7 @@ function EnterForm({ accountIn }) {
           inhere[account].forEach((element, index) => {
             priceArry.push({x: element.change * lastNightPrice, y: index, p: element.change})
           });
+          console.log(priceArry)
           return priceArry
         }).catch(err => console.log(err))
       
